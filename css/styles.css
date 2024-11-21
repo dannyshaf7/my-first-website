@@ -1,0 +1,19 @@
+body {
+    /* Font falls back to Arial if specified family is unavailable */
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 18px; /* px (pixels) is a unit the size of a pixel on the screen */
+    font-weight: 400;
+    line-height: 1.6; /* 1.6 x the font size */
+    color: #224a41; /* hex representation of the color */
+}
+
+h1 {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: 700; /* Indicates Bold */
+    /* em is a relative unit, based on font size of parent element */
+    font-size: 3em; /* HTML structure defines parent-child relationship of body/header */
+    text-align: left;
+    text-transform: lowercase;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Shadow with blur and rgba color */
+}

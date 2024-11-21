@@ -6,7 +6,25 @@
     <head>
         <!-- title element specifies title for the html page (open/close pair) -->
         <!-- element shown in browser's title bar or in page's tab-->
-        <title>Page Title</title>
+        <!-- UTF-8 is the most common character encoding, supports almost all chars/symbols -->
+        <meta charset="UTF-8"> 
+        <!-- Viewport (visible area) of webpage on mobile, match screen width, default zoom 1 -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <!-- Search engines use the description below page title in search results (see SEO) -->
+        <meta name="description" content="simple personal static webpage">
+        <!-- Used to be used by search engines, now optional, good for backward compatibility -->
+        <meta name="keywords" content="HTML, CSS, JavaScript, web development">
+        <meta name="author" content="Daniel Shafer">
+        <title>dbshafer - Home</title>
+        <!-- Link to External CSS File is any CSS file that exists outside of the html file -->
+        <!-- External indicates the styles are in a separate file (not within a <style> tag) --> 
+        <link rel="stylesheet" href="css/styles.css">
+        <!-- Displays a small icon in the browser tab, linked to .ico file in root folder -->
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <!-- Script element links external JavaScript files, can also include inline scripts -->
+        <script src=""script.js" defer></script> <!-- defer to load after html -->
+        <!-- Google Fonts API call links to external fonts located on the web server-->
+        <link href=""https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     </head>
     <!-- body element specifies document's body, a container for all visible content -->
     <!-- includes headings, paragraphs, images, hyperlinks, tables, lists, etc. -->
