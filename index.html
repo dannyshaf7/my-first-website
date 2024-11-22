@@ -25,19 +25,46 @@
         <script src=""script.js" defer></script> <!-- defer to load after html -->
         <!-- Google Fonts API call links to external fonts located on the web server-->
         <link href=""https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <style>
+            /* Add basic styling for navigation menu */
+            nav {
+                background-color: #f4f4f4; /* Light gray background for the menu */
+                /* Padding attribute adds space inside element, between content border (if any) */
+                padding: 10px;
+                border-bottom: 2px solid #ccc;
+            }
+            nav a {
+                margin: 0 15px; /* Spacing between links */
+                text-decoration: none; /* Removes underline from links */
+                color: #007BFF; /* A nice blue color for links */
+            }
+            nav a:hover {
+                text-decoration: underline; /* Adds underline when hovering over links */
+            }
+        </style>
     </head>
     <!-- body element specifies document's body, a container for all visible content -->
     <!-- includes headings, paragraphs, images, hyperlinks, tables, lists, etc. -->
     <body>
+        <!-- Navigation menu -->
+        <nav>
+            <a href="about.html">About</a>
+            <a href="blog.html">Blog</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="socials.html">Socials</a>
+        </nav>
 
+        <!-- Main content -->
         <!-- h1 element defines a large heading -->
-        <h1>My First Heading</h1>
+        <h1>Home, home on the (cyber) range</h1>
         <!-- p element defines a paragraph -->
         <p>
             <!-- br element is for page break, there is no closing tag -->
             My first paragraph<br>
-            Second line of my first paragraph
+            Hello! and welcome to my website.
         </p>
-
+        <a href="blog.html">Go to Blog</a>
+        <a href="gallery.html">Go to Gallery</a>
+        <a href="about.html">Go to About Me</a>
     </body>
 </html>
