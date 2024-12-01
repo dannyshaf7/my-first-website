@@ -1,0 +1,51 @@
+/* General styles for the tutorials page */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    margin: 20px;
+    padding: 0;
+}
+
+/* Style for the main content container */
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styles */
+h1, h2 {
+    color: #007acc;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+/* Paragraph and list styles */
+p {
+    margin: 10px 0;
+}
+
+ul {
+    list-style-type: disc;
+    margin: 10px 0 10px 20px;
+}
+
+ol {
+    list-style-type: decimal;
+    margin: 10px 0 10px 20px;
+}
+
+/* Code block styles */
+code, pre {
+    background: #f4f4f4;     /* Light gray background for contrast */
+    color: #c7254e;          /* A distinct red color for the text */
+    padding: 5px;              /* Space around the text to make it more readable */
+    border-radius: 4px;        /* Rounded corners for a polished look */
+    font-family: 'Courier New', Courier, monospace;    /* Monospace font for clarity */
+}

@@ -1,14 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Gallery</title>
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <meta name="description" content="simple personal static webpage">
+        <meta name="keywords" content="HTML, CSS, JavaScript, web development">
+        <meta name="author" content="Daniel Shafer">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <script src=""script.js" defer></script> <!-- defer to load after html -->
+        <link href=""https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <title>dbshafer - Gallery</title>
+        <style>
+            /* Add basic styling for navigation menu */
+            nav {
+                background-color: #f4f4f4; /* Light gray background for the menu */
+                /* Padding attribute adds space inside element, between content border (if any) */
+                padding: 10px;
+                border-bottom: 2px solid #ccc;
+            }
+            nav a {
+                margin: 0 15px; /* Spacing between links */
+                text-decoration: none; /* Removes underline from links */
+                color: #007BFF; /* A nice blue color for links */
+            }
+            nav a:hover {
+                text-decoration: underline; /* Adds underline when hovering over links */
+            }
+        </style>
     </head>
     <body>
+        <!-- Navigation menu -->
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="blog.html">Blog</a>
+            <a href="learn.html">Learn</a>
+            <a href="socials.html">Socials</a>
+        </nav>
+
         <h1>Hello! and welcome to the Gallery</h1>
         <!-- Adds an image to the page, style attribute for scaling -->
         <img src="images/w1Ld_Hun7.jpg" alt="Dogs of the Wild Hunt" style="max-width: 50%; height: auto;">
-        <a href="index.html">Back to Home</a>
     </body>
 </html>
