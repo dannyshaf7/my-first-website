@@ -65,41 +65,160 @@
             </nav>
 
             <!-- Main Content -->
-            <h1>Tutorial Name</h1>
+            <h1>Exploiting Web Authentication Vulnerabilities</h1>
             <div class="tutorial-step">
-                <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
-                </ol>
                 <img src="images/tutorial1/tutorial1.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
                 <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
+                    <li>When looking for web app vulnerabilities, we often start without credentials.</li>
                 </ol>
                 <img src="images/tutorial1/tutorial2.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
                 <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
+                    <li>Bypassing the login altogether, when possible, is a great start.</li>
+                    <li>The robots.txt file can sometimes expose sensitive information.</li>
+                    <li>
+                        It is used by website owners to communicate with search engines<br>
+                        and tell them which parts not to crawl. Useful information can<br>
+                        sometimes be found here, including sensitive or hidden directories and files.
+                    </li>
+                    <li>Parse these directories, test pages and old website versions for sensitive data.</li>
+                    <li>In this vulnerable webserver we find a hidden directory for an admin portal.</li>
                 </ol>
                 <img src="images/tutorial1/tutorial3.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
                 <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
+                    <li>
+                        Navigating to the admin portal in this way bypasses the login entirely <br>
+                        and gives us access to the administrator action of deleting users!
+                    </li>
                 </ol>
                 <img src="images/tutorial1/tutorial4.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Sensitive information can also be found in the network traffic sent to and from the webserver.</li>
+                    <li>Burp Suite is a useful tool for intercepting network traffic to better understand a site.</li>
+                    <li>Here, we open a Chromium browser hosted by the Burp Suite session and navigate to our target.</li>
+                </ol>
+                <img src="images/tutorial1/tutorial5.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Attempt to log in to the My account portal on the website.</li>
+                    <li>Return to the Burp Suite Target window and view the /login response.</li>
+                </ol>
+                <img src="images/tutorial1/tutorial6.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Look through the Response script for sensitive information left in by the web developers.</li>
+                    <li>Here we can see an admin panel tag attribut in plain text that appears to be a directory</li>
+                    <li>Next we should navigate to the address to see where it takes us.</li>
+                </ol>
+                <img src="images/tutorial1/tutorial7.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Navigating to the directory we found in the login response takes us to the admin panel, <br>
+                        bypassing the login entirely and giving us access to the administrator action of deleting users!
+                    </li>
+                </ol>
+                <img src="images/tutorial1/tutorial8.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>We can also view network traffic without installing tools like Burp Suite.</li>
+                    <li>Browsers provide powerful tools, often called Web Developer Tools, within the browser itself.</li>
+                    <li>Here, we navigate to the menu, more tools, where we find the Web Developer Tools option.</li>
+                </ol>
+                <img src="images/tutorial1/tutorial9.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Follow the same steps to attempt login.</li>
+                    <li>Navigate to the Network tab of the Web Developer Tools menu and find the login packet response.</li>
+                    <li>Here you will see the same script we reviewed in Burp Suite which shows the admin panel directory in plain text.</li>
+                    <li>Note: the directory name is different each time the lab is opened.</li>
+                </ol>
+                <img src="images/tutorial1/tutorial10.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>In this scenario, we have been given low-level user credentials without administrator rights.</li>
+                    <li>Even though we can log in, we need to find a way to elevate our priveleges.</li>
+                </ol>
+                <img src="images/tutorial1/tutorial11.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Another powerful tool in web development and operation is the cookie.</li>
+                    <li>A cookie is a small piece of data web browsers use to store and retrieve information.</li>
+                    <li>They can provide a faster and more personalized experience for the user.</li>
+                    <li>
+                        With this conveniece comes risk. Cookies can be used to keep users logged in, remember login<br> 
+                        credentials, track user behavior across websites and more. This data should be carefully guarded. 
+                    </li>
+                    <li>We start by opening the website in Burp Suite browser.</li>
+                </ol>
+                <img src="images/tutorial1/tutorial12.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>This time we navigate to the Proxy tab of Burp Suite to enable packet interception.</li>
+                    <li>With the proxy, we are able to review and make changes to packets before they are sent to the web.</li>
+                </ol>
+                <img src="images/tutorial1/tutorial13.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Enter the user login credentials and click log in. You will notice nothing happens in the browser.</li>
+                    <li>This is because the Burp Suite proxy is intercepting the action. Return to Burp Suite.</li>
+                </ol>
+                <img src="images/tutorial1/tutorial14.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Burp Suite displays the details of the request packet and allows changes before forwarding to the web.</li>
+                    <li>Notice that there is a session cookie attribute of Admin which is set to false.</li>
+                    <li>Here we can find vulnerabilities in how cookies are handled that may allow us to manually update the value.</li>
+                </ol>
+                <img src="images/tutorial1/tutorial15.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Change the value of Admin to "true" from "false".</li>
+                    <li>Forward the request packet to the web to log in using the credentials and cookie value of Admin=true.</li>
+                    <li>This may require clicking Forward multiple times depending on how many packets are needed</li>
+                    <li>Return to the Burp Suite Chromium browser window.</li>
+                </ol>
+                <img src="images/tutorial1/tutorial16.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Now that we are logged in, we can navigate to /admin address to access the admin panel.</li>
+                    <li>Changing the cookie has granted access to the administrator panel and the action of deleting users!</li>
+                </ol>
+                <img src="images/tutorial1/tutorial17.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
@@ -108,7 +227,70 @@
                     <li>Step 2: ...</li>
                     <li>Step 3: ...</li>
                 </ol>
-                <img src="images/tutorial1/tutorial4.png" alt="text description of image">
+                <img src="images/tutorial1/tutorial18.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Step 1: ...</li>
+                    <li>Step 2: ...</li>
+                    <li>Step 3: ...</li>
+                </ol>
+                <img src="images/tutorial1/tutorial19.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Step 1: ...</li>
+                    <li>Step 2: ...</li>
+                    <li>Step 3: ...</li>
+                </ol>
+                <img src="images/tutorial1/tutorial20.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Step 1: ...</li>
+                    <li>Step 2: ...</li>
+                    <li>Step 3: ...</li>
+                </ol>
+                <img src="images/tutorial1/tutorial21.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Step 1: ...</li>
+                    <li>Step 2: ...</li>
+                    <li>Step 3: ...</li>
+                </ol>
+                <img src="images/tutorial1/tutorial22.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Step 1: ...</li>
+                    <li>Step 2: ...</li>
+                    <li>Step 3: ...</li>
+                </ol>
+                <img src="images/tutorial1/tutorial23.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Step 1: ...</li>
+                    <li>Step 2: ...</li>
+                    <li>Step 3: ...</li>
+                </ol>
+                <img src="images/tutorial1/tutorial24.png" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <ol>
+                    <li>Step 1: ...</li>
+                    <li>Step 2: ...</li>
+                    <li>Step 3: ...</li>
+                </ol>
+                <img src="images/tutorial1/tutorial25.png" alt="text description of image">
             </div>
         </div>
     </body>
