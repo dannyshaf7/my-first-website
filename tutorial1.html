@@ -67,231 +67,258 @@
             <!-- Main Content -->
             <h1>Exploiting Web Authentication Vulnerabilities</h1>
             <div class="tutorial-step">
+                <ul>
+                    <li>There are many ways a web application may be vulnerable to attack.</li>
+                    <li>
+                        In this tutorial, we present some examples to illustrate vulnerabilities in 
+                        the way websites authenticate their users. 
+                    </li>
+                    <li>
+                        If you wish to follow along, the vulnerable websites shown here were created
+                        and hosted by PortSwigger.net, the creator of Burp Suite. 
+                        <a href="https://portswigger.net/web-security/authentication">PortSwigger Web Security Academy</a>
+                    </li> 
+                    
+                </ul>
+                
+                
                 <img src="images/tutorial1/tutorial1.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>When looking for web app vulnerabilities, we often start without credentials.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial2.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>Bypassing the login altogether, when possible, is a great start.</li>
                     <li>The robots.txt file can sometimes expose sensitive information.</li>
                     <li>
-                        It is used by website owners to communicate with search engines<br>
-                        and tell them which parts not to crawl. Useful information can<br>
-                        sometimes be found here, including sensitive or hidden directories and files.
+                        It is used by website owners to communicate with search engines and tell them which parts not 
+                        to crawl. Useful data can sometimes be found here, including sensitive or hidden 
+                        directories or files.
                     </li>
                     <li>Parse these directories, test pages and old website versions for sensitive data.</li>
                     <li>In this vulnerable webserver we find a hidden directory for an admin portal.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial3.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>
-                        Navigating to the admin portal in this way bypasses the login entirely <br>
-                        and gives us access to the administrator action of deleting users!
+                        Navigating to the admin portal in this way bypasses the login entirely and gives us access to 
+                        the administrator action of deleting users!
                     </li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial4.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>Sensitive information can also be found in the network traffic sent to and from the webserver.</li>
                     <li>Burp Suite is a useful tool for intercepting network traffic to better understand a site.</li>
                     <li>Here, we open a Chromium browser hosted by the Burp Suite session and navigate to our target.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial5.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>Attempt to log in to the My account portal on the website.</li>
                     <li>Return to the Burp Suite Target window and view the /login response.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial6.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>Look through the Response script for sensitive information left in by the web developers.</li>
                     <li>Here we can see an admin panel tag attribut in plain text that appears to be a directory</li>
                     <li>Next we should navigate to the address to see where it takes us.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial7.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
-                    <li>Navigating to the directory we found in the login response takes us to the admin panel, <br>
+                <ul>
+                    <li>Navigating to the directory we found in the login response takes us to the admin panel,
                         bypassing the login entirely and giving us access to the administrator action of deleting users!
                     </li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial8.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>We can also view network traffic without installing tools like Burp Suite.</li>
                     <li>Browsers provide powerful tools, often called Web Developer Tools, within the browser itself.</li>
                     <li>Here, we navigate to the menu, more tools, where we find the Web Developer Tools option.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial9.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>Follow the same steps to attempt login.</li>
                     <li>Navigate to the Network tab of the Web Developer Tools menu and find the login packet response.</li>
                     <li>Here you will see the same script we reviewed in Burp Suite which shows the admin panel directory in plain text.</li>
                     <li>Note: the directory name is different each time the lab is opened.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial10.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>In this scenario, we have been given low-level user credentials without administrator rights.</li>
                     <li>Even though we can log in, we need to find a way to elevate our priveleges.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial11.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>Another powerful tool in web development and operation is the cookie.</li>
                     <li>A cookie is a small piece of data web browsers use to store and retrieve information.</li>
                     <li>They can provide a faster and more personalized experience for the user.</li>
                     <li>
-                        With this conveniece comes risk. Cookies can be used to keep users logged in, remember login<br> 
+                        With this conveniece comes risk. Cookies can be used to keep users logged in, remember login 
                         credentials, track user behavior across websites and more. This data should be carefully guarded. 
                     </li>
                     <li>We start by opening the website in Burp Suite browser.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial12.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>This time we navigate to the Proxy tab of Burp Suite to enable packet interception.</li>
                     <li>With the proxy, we are able to review and make changes to packets before they are sent to the web.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial13.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>Enter the user login credentials and click log in. You will notice nothing happens in the browser.</li>
                     <li>This is because the Burp Suite proxy is intercepting the action. Return to Burp Suite.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial14.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>Burp Suite displays the details of the request packet and allows changes before forwarding to the web.</li>
                     <li>Notice that there is a session cookie attribute of Admin which is set to false.</li>
                     <li>Here we can find vulnerabilities in how cookies are handled that may allow us to manually update the value.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial15.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>Change the value of Admin to "true" from "false".</li>
                     <li>Forward the request packet to the web to log in using the credentials and cookie value of Admin=true.</li>
                     <li>This may require clicking Forward multiple times depending on how many packets are needed</li>
                     <li>Return to the Burp Suite Chromium browser window.</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial16.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
+                <ul>
                     <li>Now that we are logged in, we can navigate to /admin address to access the admin panel.</li>
                     <li>Changing the cookie has granted access to the administrator panel and the action of deleting users!</li>
-                </ol>
+                </ul>
                 <img src="images/tutorial1/tutorial17.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
-                </ol>
+                <ul>
+                    <li>The last technique we will review is network packet analysis.</li>
+                    <li>First, open a Chromium browser window in Burp Suite.</li>
+                </ul>
                 <img src="images/tutorial1/tutorial18.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
-                </ol>
+                <ul>
+                    <li>Next, turn on Intercept from the Proxy tab in Burp Suite to capture traffic.</li>
+                    <li>Note: after turning on Intercept, any action you take in browser has to be forwarded from this window.</li>
+                </ul>
                 <img src="images/tutorial1/tutorial19.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
-                </ol>
+                <ul>
+                    <li>After logging in with the provided credentials, navigate to My Account link.</li>
+                    <li>Here we have the opportunity to edit account detail: email address.</li>
+                    <li>Enter an email address to update the account, then return to Burp Suite.</li>
+                </ul>
                 <img src="images/tutorial1/tutorial20.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
-                </ol>
+                <ul>
+                    <li>In the Proxy tab, you should see the contents of the Request (GET) packet you sent to update the email.</li>
+                    <li>Note the email address you entered is at the bottom in JSON format.</li>
+                    <li>JSON (JavaScript Object Notation) is a common data format to store and transmit data.</li>
+                    <li>Right click to open the menu and select Send to Repeater.</li>
+                    <li>The Repeater Burp Suite tool allows us to change our request and see what the response will be.</li>
+                </ul>
                 <img src="images/tutorial1/tutorial21.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
-                </ol>
+                <ul>
+                    <li>When we send our request, we receive a Response packet that contains additional account details.</li>
+                    <li>Username, apikey, and roleid are user details we were not aware of previously.</li>
+                    <li>Take special note of roleid, which is a variable of unspecified significance.</li>
+                    <li>As we are trying to elevate the priveleges (role) of our account, we may be able to use this to become an admin.</li>
+                </ul>
                 <img src="images/tutorial1/tutorial22.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
-                </ol>
+                <ul>
+                    <li>Try changing roleid by including it with the email field in your Request packet.</li>
+                    <li>Note: in JSON format, the fields must be separated by a comma.</li>
+                    <li>After sending, you will notice that the roleid has changed in the Response.</li>
+                    <li>It appears that we've found a vulnerability in how the server handles user validation!</li>
+                </ul>
                 <img src="images/tutorial1/tutorial23.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
-                </ol>
+                <ul>
+                    <li>Next we must send the actual Request packet to the website. Navigate back to the Proxy tab.</li>
+                    <li>Add the roleid field to the JSON message and update it to a number other than 1.</li>
+                    <li>Forward the package to the website and return to the browser.</li>
+                </ul>
                 <img src="images/tutorial1/tutorial24.png" alt="text description of image">
             </div>
 
             <div class="tutorial-step">
-                <ol>
-                    <li>Step 1: ...</li>
-                    <li>Step 2: ...</li>
-                    <li>Step 3: ...</li>
-                </ol>
+                <ul>
+                    <li>If you've successfully updated the roleid to 2 from 1, you should be able to navigate to the admin panel.</li>
+                    <li>Changing the roleid has granted access to the administrator panel and the action of deleting users!</li>
+                </ul>
                 <img src="images/tutorial1/tutorial25.png" alt="text description of image">
             </div>
+
+            <div class="tutorial-step">
+                <ul>
+                    <li>In this tutorial we have reviewed various simple techniques for identifying and exploiting web authentication vulnerabilities.</li>
+                    <li>It is very important to be very thorough when designing and maintaining websites as they are open to the public.</li>
+                    <li>The internet is a very wide attack surface. Hosting sensitive information opens you to great risk, so take great care!</li>
+                    <li>
+                        I hope you have learned something new and enjoyed your time in this tutorial. If so, please check back later, as additional 
+                        content will be posted as it becomes available!
+                    </li>
+                </ul>
         </div>
     </body>
 </html>
