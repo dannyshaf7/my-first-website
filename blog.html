@@ -6,10 +6,11 @@
         <meta name="description" content="simple personal static webpage">
         <meta name="keywords" content="HTML, CSS, JavaScript, web development">
         <meta name="author" content="Daniel Shafer">
+        <meta name="robots" content="index, follow">
         <link rel="stylesheet" href="css/styles.css">
         <link rel="icon" href="favicon.ico" type="image/x-icon">
-        <script src=""script.js" defer></script> <!-- defer to load after html -->
-        <link href=""https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <script src="js/script.js" defer></script> <!-- defer to load after html -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <title>dbshafer - Blog</title>
         <style>
             /* Add basic styling for navigation menu */
@@ -31,7 +32,7 @@
     </head>
     <body>
         <!-- Navigation menu -->
-        <nav>
+        <nav aria-label="Main Navigation">
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
             <a href="gallery.html">Gallery</a>
@@ -41,6 +42,15 @@
 
         <h1>Hello! and welcome to my little blog page.</h1>
         <a href="index.html">Back to Home</a>
+
+        <button id="newPostBtn">New Blog Post</button>
+
+        <script>
+            document.getElementById("newPostBtn").addEventListener("click", () => {
+                window.location.href = "/add_post.html";
+            });
+        </script>
+
         <div id="blog-posts"></div>
 
         <script>
@@ -60,52 +70,63 @@
                 });
             });
         </script>
+        <section id="static-updates">
+            <h2>Latest Updates</h2>
+            <article>
+                <h3><time datetime="2024-11-20">November 20, 2024</time></h3>
+                <p>
+                    I started building my first website today, from scratch. <br>
+                    I learned in the NCL Competition that the web is a big knowledge gap. <br>
+                    Luckily, my final project for Pen Testing involves site creation! <br>
+                    I am excited to see what I can accomplish in the coming weeks!
+                </p>
+            </article>
 
+            <article>
+                <h3><time datetime="2024-11-21">November 21, 2024</time></h3>
+                    <p>
+                        I started building more pages for my website. <br>
+                        I have already learned lots about HTML and a bit about CSS. <br>
+                        Adding an image and linking pages was much simpler than expected. <br>
+                        I am excited to see where this project goes next!
+                    </p>
+            </article>
+            
+            <article>
+                <h3><time datetime="2024-11-23">November 23, 2024</time></h3>
+                    <p>
+                        Today, I am thinking about content and purpose. <br>
+                        This website will primarily be used for my Pen-testing Final Project. <br>
+                        I think the next step should be to create a space for presenting a tutorial. <br>
+                        I perceive formatting to be a major hurdle, we'll see!
+                    </p>
+            </article>
+            
+            <article>
+                <h3><time datetime="2024-11-30">November 30, 2024</time></h3>
+                    <p>
+                        I passed my first certification exam yesterday! <br>
+                        Studying for that is what kept me away from working on the site. <br>
+                        Now that it's done I have made some additions. <br>
+                        For my final project, I must create a tutorial. <br>
+                        I did the research, worked through some examples, and got images. <br>
+                        I reached out to the org that created the labs I used to see if <br>
+                        they have any acceptable use standards for sharing lab details publicly. <br>
+                        It is currently hosted locally so I will continue to build while hoping <br>
+                        for the best. They are closed on the weekend so it'll be a bit. <br>
+                    </p>
+            </article>
+            
+            <article>
+                <h3><time datetime="2024-12-03">December 3, 2024</time></h3>
+                    <p>
+                        Back to working on the website. <br>
+                        Work was a mess today so I don't have much energy. <br>
+                        I optimized the png images and started adding text to the tutorial page. <br>
+                        It's about 1am now. I should sleep but the project is due in less than 24 hours. <br>
+                        Oh well, I'll try and get some shut-eye. The hard parts are done. <br>
+                    </p>
+            </article>  
+        </section>
     </body>
-    <section>
-        <h3>Latest Updates</h3>
-        <article>
-            <h4>November 20, 2024</h4>
-            <p>
-                I started building my first website today, from scratch. <br>
-                I learned in the NCL Competition that the web is a big knowledge gap. <br>
-                Luckily, my final project for Pen Testing involves site creation! <br>
-                I am excited to see what I can accomplish in the coming weeks!
-            </p>
-            <h5>November 21, 2024</h5>
-            <p>
-                I started building more pages for my website. <br>
-                I have already learned lots about HTML and a bit about CSS. <br>
-                Adding an image and linking pages was much simpler than expected. <br>
-                I am excited to see where this project goes next!
-            </p>
-            <h6>November 23, 2024</h6>
-            <p>
-                Today, I am thinking about content and purpose. <br>
-                This website will primarily be used for my Pen-testing Final Project. <br>
-                I think the next step should be to create a space for presenting a tutorial. <br>
-                I perceive formatting to be a major hurdle, we'll see!
-            </p>
-            <h7>November 30, 2024</h7>
-            <p>
-                I passed my first certification exam yesterday! <br>
-                Studying for that is what kept me away from working on the site. <br>
-                Now that it's done I have made some additions. <br>
-                For my final project, I must create a tutorial. <br>
-                I did the research, worked through some examples, and got images. <br>
-                I reached out to the org that created the labs I used to see if <br>
-                they have any acceptable use standards for sharing lab details publicly. <br>
-                It is currently hosted locally so I will continue to build while hoping <br>
-                for the best. They are closed on the weekend so it'll be a bit. <br>
-            </p>
-            <h8>December 3, 2024</h8>
-            <p>
-                Back to working on the website. <br>
-                Work was a mess today so I don't have much energy. <br>
-                I optimized the png images and started adding text to the tutorial page. <br>
-                It's about 1am now. I should sleep but the project is due in less than 24 hours. <br>
-                Oh well, I'll try and get some shut-eye. The hard parts are done. <br>
-            </p>
-        </article>
-    </section>
 </html>

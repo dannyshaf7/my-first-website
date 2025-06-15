@@ -5,6 +5,10 @@
 </head>
 <body>
     <h1>New Blog Post</h1>
+
+    //Button to Post to Blog
+    <button id="startAddPost">New Blog Post</button>
+
     <form id="postForm" style="display:none;">
         <input type="text" name="title" placeholder="Title" required><br><br>
         <textarea name="content" placeholder="Content..." rows="10" cols="50" required></textarea><br><br>
@@ -101,6 +105,14 @@
         document.getElementById('logoutLink').style.display = 'none';
     }
 
+    function showPostFormIfAuthenticated() {
+        const tokens = JSON.parse(sessionStorage.getItem('tokens'));
+        if (tokens && tokens.id_token) {
+            document.getElementById('startAddPost').style.display = 'none';
+            document.getElementById('postForm').style.display = 'block';
+        }
+    }
+
     // Start login redirect
     async function startLogin() {
         const codeVerifier = generateCodeVerifier();
@@ -125,6 +137,19 @@
         window.location.href = logoutUrl;
     });
 
+    // Add Post button logic
+    document.getElementById('startAddPost').addEventListener('click', async () => {
+        const tokens = JSON.parse(sessionStorage.getItem('tokens'));
+        
+        if (!tokens || !tokens.id_token) {
+            // Start login flow
+            startLogin();
+        } else {
+            // Already logged in - show form
+            showPostFormIfAuthenticated();
+        }
+    })
+
     // Form submission
     document.getElementById('postForm').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -147,7 +172,8 @@
 
         if (response.ok) {
             alert('Post submitted!');
-            e.target.reset();
+            sessionStorage.clear(); // Clear tokens immediately after posting
+            window.location.href = 'https://dbshafer.site/blog.html';
         } else {
             const err = await response.text();
             alert('Error submitting post.');
