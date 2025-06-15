@@ -41,32 +41,52 @@
 
         <h1>Hello! and welcome to my little blog page.</h1>
         <a href="index.html">Back to Home</a>
+        <div id="blog-posts"></div>
+
+        <script>
+            fetch('posts.json')
+            .then(response => response.json())
+            .then(posts => {
+                const container = document.getElementById('blog-posts');
+                posts.reverse().forEach(post => {
+                    const postDiv = document.createElement('div');
+                    postDiv.innerHTML = `
+                        <h2>${post.title}</h2>
+                        <p><em>${post.timestamp}</em></p>
+                        <p>${post.content}</p>
+                        <hr>
+                    `;
+                    container.appendChild(postDiv);  
+                });
+            });
+        </script>
+
     </body>
     <section>
-        <h2>Latest Updates</h2>
+        <h3>Latest Updates</h3>
         <article>
-            <h3>November 20, 2024</h3>
+            <h4>November 20, 2024</h4>
             <p>
                 I started building my first website today, from scratch. <br>
                 I learned in the NCL Competition that the web is a big knowledge gap. <br>
                 Luckily, my final project for Pen Testing involves site creation! <br>
                 I am excited to see what I can accomplish in the coming weeks!
             </p>
-            <h3>November 21, 2024</h3>
+            <h5>November 21, 2024</h5>
             <p>
                 I started building more pages for my website. <br>
                 I have already learned lots about HTML and a bit about CSS. <br>
                 Adding an image and linking pages was much simpler than expected. <br>
                 I am excited to see where this project goes next!
             </p>
-            <h3>November 23, 2024</h3>
+            <h6>November 23, 2024</h6>
             <p>
                 Today, I am thinking about content and purpose. <br>
                 This website will primarily be used for my Pen-testing Final Project. <br>
                 I think the next step should be to create a space for presenting a tutorial. <br>
                 I perceive formatting to be a major hurdle, we'll see!
             </p>
-            <h4>November 30, 2024</h4>
+            <h7>November 30, 2024</h7>
             <p>
                 I passed my first certification exam yesterday! <br>
                 Studying for that is what kept me away from working on the site. <br>
@@ -78,7 +98,7 @@
                 It is currently hosted locally so I will continue to build while hoping <br>
                 for the best. They are closed on the weekend so it'll be a bit. <br>
             </p>
-            <h5>December 3, 2024</h4>
+            <h8>December 3, 2024</h8>
             <p>
                 Back to working on the website. <br>
                 Work was a mess today so I don't have much energy. <br>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PKCE Auth Code Flow Example</title>
+</head>
+<body>
+    <h1>New Blog Post</h1>
+    <form id="postForm" style="display:none;">
+        <input type="text" name="title" placeholder="Title" required><br><br>
+        <textarea name="content" placeholder="Content..." rows="10" cols="50" required></textarea><br><br>
+        <button type="submit">Submit Post</button>
+    </form>
+
+    <p id="loginMessage" style="color:red;"></p>
+    <p><a id="logoutLink" href="#" style="display:none;">Log Out</a></p>
+
+<script>
+(async () => {
+    const clientId = '3f27snfi3nsni8lgs1groqm4gn';
+    const redirectUri = 'https://dbshafer.site/add_post.html';
+    const cognitoDomain = 'us-east-2befj8o9yd.auth.us-east-2.amazoncognito.com'; // example: your-domain.auth.us-east-1.amazoncognito.com
+
+    // Utils: base64 URL encode
+    function base64UrlEncode(buffer) {
+        return btoa(String.fromCharCode.apply(null, new Uint8Array(buffer)))
+            .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+
+    // Generate a random string for code verifier
+    function generateCodeVerifier() {
+        const array = new Uint8Array(32);
+        window.crypto.getRandomValues(array);
+        return base64UrlEncode(array);
+    }
+
+    // Generate code challenge (SHA256 hash of code verifier)
+    async function generateCodeChallenge(codeVerifier) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(codeVerifier);
+        const digest = await window.crypto.subtle.digest('SHA-256', data);
+        return base64UrlEncode(digest);
+    }
+
+    // Parse query parameters from URL
+    function parseQueryParams() {
+        const params = {};
+        window.location.search.substring(1).split('&').forEach(pair => {
+            const [key, value] = pair.split('=');
+            if (key) params[decodeURIComponent(key)] = decodeURIComponent(value);
+        });
+        return params;
+    }
+
+    // Remove query params from URL without reload
+    function cleanUrl() {
+        window.history.replaceState(null, '', window.location.pathname);
+    }
+
+    // Save code verifier to sessionStorage
+    function saveCodeVerifier(verifier) {
+        sessionStorage.setItem('pkce_code_verifier', verifier);
+    }
+
+    // Get saved code verifier
+    function getCodeVerifier() {
+        return sessionStorage.getItem('pkce_code_verifier');
+    }
+
+    // Exchange auth code for tokens
+    async function exchangeCodeForToken(code, codeVerifier) {
+        const body = new URLSearchParams();
+        body.append('grant_type', 'authorization_code');
+        body.append('client_id', clientId);
+        body.append('code', code);
+        body.append('redirect_uri', redirectUri);
+        body.append('code_verifier', codeVerifier);
+
+        const response = await fetch(`https://${cognitoDomain}/oauth2/token`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body.toString()
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error('Token exchange failed: ' + errorText);
+        }
+        return await response.json();
+    }
+
+    // Show or hide UI based on auth
+    function showLoggedIn() {
+        document.getElementById('postForm').style.display = 'block';
+        document.getElementById('loginMessage').textContent = '';
+        document.getElementById('logoutLink').style.display = 'inline';
+    }
+
+    function showLoggedOut() {
+        document.getElementById('postForm').style.display = 'none';
+        document.getElementById('loginMessage').textContent = 'You must be logged in to submit a post.';
+        document.getElementById('logoutLink').style.display = 'none';
+    }
+
+    // Start login redirect
+    async function startLogin() {
+        const codeVerifier = generateCodeVerifier();
+        saveCodeVerifier(codeVerifier);
+        const codeChallenge = await generateCodeChallenge(codeVerifier);
+
+        const loginUrl = `https://${cognitoDomain}/login?` +
+            `response_type=code&client_id=${encodeURIComponent(clientId)}` +
+            `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+            `&code_challenge_method=S256&code_challenge=${codeChallenge}` +
+            `&scope=openid+profile+email`;
+
+        window.location.href = loginUrl;
+    }
+
+    // Logout
+    document.getElementById('logoutLink').addEventListener('click', () => {
+        sessionStorage.clear();
+        const logoutUrl = `https://${cognitoDomain}/logout?` +
+            `client_id=${encodeURIComponent(clientId)}` +
+            `&logout_uri=${encodeURIComponent(redirectUri)}`;
+        window.location.href = logoutUrl;
+    });
+
+    // Form submission
+    document.getElementById('postForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const tokens = JSON.parse(sessionStorage.getItem('tokens'));
+        if (!tokens || !tokens.id_token) {
+            alert('You must be logged in to submit a post.');
+            return;
+        }
+        const title = e.target.title.value;
+        const content = e.target.content.value;
+
+        const response = await fetch('https://72tls4x8rj.execute-api.us-east-2.amazonaws.com/dev/addPost', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${tokens.id_token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title, content })
+        });
+
+        if (response.ok) {
+            alert('Post submitted!');
+            e.target.reset();
+        } else {
+            const err = await response.text();
+            alert('Error submitting post.');
+            console.error(err);
+        }
+    });
+
+    // Main logic starts here
+    try {
+        const params = parseQueryParams();
+        if (params.code) {
+            // Exchange code for tokens
+            const codeVerifier = getCodeVerifier();
+            if (!codeVerifier) throw new Error('Code verifier not found in sessionStorage.');
+
+            const tokenResponse = await exchangeCodeForToken(params.code, codeVerifier);
+            sessionStorage.setItem('tokens', JSON.stringify(tokenResponse));
+            sessionStorage.removeItem('pkce_code_verifier');
+            cleanUrl();
+            showLoggedIn();
+        } else {
+            // Check if tokens exist
+            const tokens = JSON.parse(sessionStorage.getItem('tokens'));
+            if (tokens && tokens.id_token) {
+                showLoggedIn();
+            } else {
+                showLoggedOut();
+                // Optional: add a login button to start login flow
+                // if (!document.getElementById('loginButton')) {
+                    // const btn = document.createElement('button');
+                    // btn.textContent = 'Log In';
+                    // btn.id = 'loginButton';
+                    // btn.onclick = startLogin;
+                    // document.body.insertBefore(btn, document.getElementById('loginMessage'));
+                //}
+            }
+        }
+    } catch (err) {
+        console.error(err);
+        showLoggedOut();
+        // Optionally show login button even on error
+    }
+})();
+</script>
+</body>
+</html>
