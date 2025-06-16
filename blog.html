@@ -47,7 +47,8 @@
 
         <script>
             document.getElementById("newPostBtn").addEventListener("click", () => {
-                window.location.href = "/add_post.html";
+                // Pass a parameter to tell add_post.html to start login immediately
+                window.location.href = "/add_post.html?action=login";
             });
         </script>
 

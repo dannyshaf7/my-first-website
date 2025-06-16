@@ -6,9 +6,7 @@
 <body>
     <h1>New Blog Post</h1>
 
-    //Button to Post to Blog
-    <button id="startAddPost">New Blog Post</button>
-
+    <!-- Button to Post to Blog -->
     <form id="postForm" style="display:none;">
         <input type="text" name="title" placeholder="Title" required><br><br>
         <textarea name="content" placeholder="Content..." rows="10" cols="50" required></textarea><br><br>
@@ -105,14 +103,6 @@
         document.getElementById('logoutLink').style.display = 'none';
     }
 
-    function showPostFormIfAuthenticated() {
-        const tokens = JSON.parse(sessionStorage.getItem('tokens'));
-        if (tokens && tokens.id_token) {
-            document.getElementById('startAddPost').style.display = 'none';
-            document.getElementById('postForm').style.display = 'block';
-        }
-    }
-
     // Start login redirect
     async function startLogin() {
         const codeVerifier = generateCodeVerifier();
@@ -138,17 +128,17 @@
     });
 
     // Add Post button logic
-    document.getElementById('startAddPost').addEventListener('click', async () => {
-        const tokens = JSON.parse(sessionStorage.getItem('tokens'));
-        
-        if (!tokens || !tokens.id_token) {
+    // document.getElementById('startAddPost').addEventListener('click', async () => {
+    //     const tokens = JSON.parse(sessionStorage.getItem('tokens'));
+    //     
+    //     if (!tokens || !tokens.id_token) {
             // Start login flow
-            startLogin();
-        } else {
-            // Already logged in - show form
-            showPostFormIfAuthenticated();
-        }
-    })
+    //         startLogin();
+    //     } else {
+    //         // Already logged in - show form
+    //         showPostFormIfAuthenticated();
+    //     }
+    // })
 
     // Form submission
     document.getElementById('postForm').addEventListener('submit', async (e) => {
@@ -194,8 +184,16 @@
             sessionStorage.removeItem('pkce_code_verifier');
             cleanUrl();
             showLoggedIn();
+        } else if (params.action === 'login') {
+            const tokens = JSON.parse(sessionStorage.getItem('tokens'));
+            if (!tokens || !tokens.id_token) {
+                await startLogin();
+                // startLogin redirects aways, no more code to run here
+            } else {
+                showLoggedIn();
+            }
         } else {
-            // Check if tokens exist
+            // normal page load
             const tokens = JSON.parse(sessionStorage.getItem('tokens'));
             if (tokens && tokens.id_token) {
                 showLoggedIn();
