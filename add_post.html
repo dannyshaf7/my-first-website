@@ -143,31 +143,40 @@
     // Form submission
     document.getElementById('postForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+
         const tokens = JSON.parse(sessionStorage.getItem('tokens'));
         if (!tokens || !tokens.id_token) {
             alert('You must be logged in to submit a post.');
             return;
         }
+
         const title = e.target.title.value;
         const content = e.target.content.value;
+        
+        try {
+            const response = await fetch('https://72tls4x8rj.execute-api.us-east-2.amazonaws.com/dev/addPost', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${tokens.id_token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title, content })
+            });
 
-        const response = await fetch('https://72tls4x8rj.execute-api.us-east-2.amazonaws.com/dev/addPost', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${tokens.id_token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ title, content })
-        });
+            const text = await response.text();
 
-        if (response.ok) {
-            alert('Post submitted!');
-            sessionStorage.clear(); // Clear tokens immediately after posting
-            window.location.href = 'https://dbshafer.site/blog.html';
-        } else {
-            const err = await response.text();
-            alert('Error submitting post.');
-            console.error(err);
+            if (response.ok) {
+                console.log("Post submitted:", text);
+                alert('Post submitted!');
+                sessionStorage.clear(); // Clear tokens immediately after posting
+                window.location.href = 'https://dbshafer.site/blog.html';
+            } else {
+                console.error("Error submitting post:", text);
+                alert('Error submitting post: ' + text);
+            }
+        } catch (err) {
+            console.error("Fetch failed:", err);
+            alert("Something went wrong submitting your post.");
         }
     });
 
