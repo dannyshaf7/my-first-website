@@ -154,7 +154,7 @@
         const content = e.target.content.value;
         
         try {
-            const response = await fetch('https://72tls4x8rj.execute-api.us-east-2.amazonaws.com/dev/addPost', {
+            const response = await fetch('https://72tls4x8rj.execute-api.us-east-2.amazonaws.com/prod/addPost', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${tokens.id_token}`,
