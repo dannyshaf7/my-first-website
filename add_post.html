@@ -19,7 +19,8 @@
 <script>
 (async () => {
     const clientId = '6k0uj0lj2j9ev5e1o8np8j7pqc';
-    const redirectUri = 'https://dbshafer.site/add_post.html';
+    const loginRedirectUri = 'https://dbshafer.site/add_post.html';
+    const logoutRedirectUri = 'https://dbshafer.site/blog.html';
     const cognitoDomain = 'us-east-2jsi4fixoa.auth.us-east-2.amazoncognito.com'; // example: your-domain.auth.us-east-1.amazoncognito.com
 
     // Utils: base64 URL encode
@@ -74,7 +75,7 @@
         body.append('grant_type', 'authorization_code');
         body.append('client_id', clientId);
         body.append('code', code);
-        body.append('redirect_uri', redirectUri);
+        body.append('redirect_uri', loginRedirectUri);
         body.append('code_verifier', codeVerifier);
 
         const response = await fetch(`https://${cognitoDomain}/oauth2/token`, {
@@ -111,7 +112,7 @@
 
         const loginUrl = `https://${cognitoDomain}/login?` +
             `response_type=code&client_id=${encodeURIComponent(clientId)}` +
-            `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+            `&redirect_uri=${encodeURIComponent(loginRedirectUri)}` +
             `&code_challenge_method=S256&code_challenge=${codeChallenge}` +
             `&scope=openid+email+phone`;
 
@@ -123,7 +124,7 @@
         sessionStorage.clear();
         const logoutUrl = `https://${cognitoDomain}/logout?` +
             `client_id=${encodeURIComponent(clientId)}` +
-            `&logout_uri=${encodeURIComponent(redirectUri)}`;
+            `&logout_uri=${encodeURIComponent(logoutRedirectUri)}`;
         window.location.href = logoutUrl;
     });
 
