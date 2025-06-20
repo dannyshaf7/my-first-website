@@ -55,22 +55,39 @@
         <div id="blog-posts"></div>
 
         <script>
-            fetch('posts.json')
-            .then(response => response.json())
-            .then(posts => {
-                const container = document.getElementById('blog-posts');
-                posts.reverse().forEach(post => {
-                    const postDiv = document.createElement('div');
-                    postDiv.innerHTML = `
-                        <h2>${post.title}</h2>
-                        <p><em>${post.timestamp}</em></p>
-                        <p>${post.content}</p>
-                        <hr>
-                    `;
-                    container.appendChild(postDiv);  
-                });
-            });
+            const apiUrl = "https://72tls4x8rj.execute-api.us-east-2.amazonaws.com/prod/list-posts";
+            const s3BaseUrl = "https://dbshafer-blog-posts.s3.us-east-2.amazonaws.com/";
+            
+            async function loadBlogPosts() {
+                try {
+                    const res = await fetch(apiUrl);
+                    let postKeys = await res.json();
+
+                    // Sort newest first based on timestamp in the filename
+                    postKeys = postKeys.sort().reverse();
+
+                    const container = document.getElementById('blog-posts');
+
+                    for (const key of postKeys) {
+                        const postRes = await fetch(s3BaseUrl + key);
+                        const post = await postRes.json();
+
+                        const postDiv = document.createElement('div');
+                        postDiv.innerHTML = `
+                            <h2>${post.title}</h2>
+                            <p><em>${post.timestamp}</em></p>
+                            <p>${post.content}</p>
+                            <hr>
+                        `;
+                        container.appendChild(postDiv);
+                    }
+                } catch (err) {
+                    console.error("Error loading blog posts:", err);
+                }
+            }
+            window.onload = loadBlogPosts;
         </script>
+
         <section id="static-updates">
             <h2>Latest Updates</h2>
             <article>
