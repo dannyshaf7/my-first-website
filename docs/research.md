@@ -1,4 +1,4 @@
-# Looking in to options for hosting (free vs. paid, cloud vs. local, etc.) 
+# Looking for hosting options (free vs. paid, cloud vs. local, etc.) 
 
 **Netlify**
 - **What It Is**: Netlify is a platform for deploying static sites and web applications. It offers free hosting with some limitations on bandwidth and build minutes.
