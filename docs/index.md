@@ -19,6 +19,7 @@ This guide is designed for developers looking to learn about AWS serverless arch
 9. [Authentication and Security Notes](auth-notes.md)
 10. [Deployment & Hosting](deployment.md)
 11. [Troubleshooting & FAQs](troubleshooting.md)
+12. [Research](research.md)
 
 ---
 
