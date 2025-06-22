@@ -70,16 +70,7 @@ Would you like help setting up a specific framework or tool for local developmen
 			• script.js (for JavaScript, if needed)
 		○ Use the following folder structure as a guide:
 
-*in markdown
-
-my-first-website/
-├── index.html
-├── css/
-│   └── styles.css
-├── js/
-│   └── script.js
-└── images/
-    └── logo.png
+<img width="260" alt="image" src="https://github.com/user-attachments/assets/77a992d4-c5b8-469e-b977-269df0db6bf5" />
 
 	4. Install Recommended Extensions:
 		○ HTML and CSS Extensions:
@@ -195,15 +186,7 @@ ChatGPT said:
 Yes, the README.md file should be placed in the root directory of your project, which is the main folder of your repository. This is the standard location, and GitHub automatically displays the contents of the README.md file when you navigate to the repository page, so it's the first place people will see when visiting your project.
 For example, your project directory might look like this:
  
-*sql
-
-my-first-website/
-│
-├── index.html
-├── styles.css
-├── script.js
-├── .gitignore
-└── README.md  <-- place it here, at the root of the directory
+<img width="365" alt="image" src="https://github.com/user-attachments/assets/43e8e97a-b0a8-4b63-a1ef-bf6555a18000" />
 
 This makes it easy for others (or yourself) to find important information about the project right away, such as how to set it up, what's included, and the purpose of the project.
 
