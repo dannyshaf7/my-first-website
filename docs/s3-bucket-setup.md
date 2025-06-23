@@ -14,17 +14,17 @@
 
 <img width="912" alt="image" src="https://github.com/user-attachments/assets/ed73380a-7bc8-4a1f-b5e7-8b72c5b64ee0" />
 
-<img width="861" alt="image" src="https://github.com/user-attachments/assets/ff766599-560e-452b-ae37-833c32731c4e" />
+<img width="861" alt="image" src="https://github.com/user-attachments/assets/b6bbd829-1333-4b2d-bfc6-1b19a5cfb208" />
 
-<img width="860" alt="image" src="https://github.com/user-attachments/assets/9c5d6cc3-c3b7-4141-84dd-6183b78a1060" />
+<img width="860" alt="image" src="https://github.com/user-attachments/assets/02791f6b-5f70-40e4-8422-0711e82649a7" />
 
-<img width="866" alt="image" src="https://github.com/user-attachments/assets/32c14f04-25e5-4d2a-b986-cb2269894cb3" />
+<img width="866" alt="image" src="https://github.com/user-attachments/assets/70ed515a-af6e-4803-b024-3c1ac563e543" />
 
-<img width="861" alt="image" src="https://github.com/user-attachments/assets/2d9adeb2-9416-40df-bb74-c7cba770b4ab" />
+<img width="664" alt="image" src="https://github.com/user-attachments/assets/eef01af0-8617-468b-a6a0-d5f27602c9cf" />
 
 <img width="913" alt="image" src="https://github.com/user-attachments/assets/f47adcbd-8b1d-49ae-ab67-22f53862e1c6" />
 
-<img width="932" alt="image" src="https://github.com/user-attachments/assets/51e6d0ee-2629-48c2-9306-c5ffa8b64edc" />
+<img width="667" alt="image" src="https://github.com/user-attachments/assets/6fa9ca2e-0b13-4487-a761-f2a036d39521" />
 
 <img width="1081" alt="image" src="https://github.com/user-attachments/assets/b939055b-b869-434a-b63d-465a5df232c3" />
 
@@ -34,13 +34,11 @@
 
 ## Need to make sure the objects are readable, making public for now (no secrets :)
 
-
-<img width="948" alt="image" src="https://github.com/user-attachments/assets/1bc7eb6f-8468-4569-8c33-17e9351183bb" />
+<img width="788" alt="image" src="https://github.com/user-attachments/assets/2e0a6643-6ade-482c-8c4a-c2b9f7a2df0b" />
 
 <img width="621" alt="image" src="https://github.com/user-attachments/assets/7d516587-b5b4-4ea8-8dd8-41148c8f9afe" />
 
-<img width="941" alt="image" src="https://github.com/user-attachments/assets/7d79dab3-6cf7-4dfb-a4f2-d146599a8589" />
-
+<img width="668" alt="image" src="https://github.com/user-attachments/assets/d886b38c-acbf-4107-b61e-1291cb1d135d" />
 
 
 # 🔐 Why does the AWS SDK Require Auth (Even for Public Buckets)?
@@ -57,29 +55,28 @@
 
 <img width="934" alt="image" src="https://github.com/user-attachments/assets/2509ec2f-4133-46c8-b2f9-6ec0dffb8b3a" />
 
-<img width="447" alt="image" src="https://github.com/user-attachments/assets/55fcb9c5-543f-4c83-9e23-10195d4d961a" />
+<img width="725" alt="image" src="https://github.com/user-attachments/assets/38a5d74c-44f7-4023-8c3f-0a2132f7eb48" />
 
 
 ## Function must be deployed, then back to IAM to create a new policy
 
+<img width="667" alt="image" src="https://github.com/user-attachments/assets/801a7423-2c23-4b6e-8445-438539444d20" />
 
-<img width="808" alt="image" src="https://github.com/user-attachments/assets/63237a86-3d0d-4f38-ba60-afcc3cc9d01b" />
+<img width="665" alt="image" src="https://github.com/user-attachments/assets/05b93276-cbbf-420f-b194-fa9f2243ee77" />
 
-<img width="770" alt="image" src="https://github.com/user-attachments/assets/4cf536d8-894b-4e65-95c8-d84f3d70d2af" />
+<img width="668" alt="image" src="https://github.com/user-attachments/assets/2a0ab8f9-36b3-4650-8f43-9a58eb13bbb3" />
 
-<img width="1037" alt="image" src="https://github.com/user-attachments/assets/8e0c7cc0-fd92-40b4-a776-10e6beb139f3" />
-
-<img width="580" alt="image" src="https://github.com/user-attachments/assets/67414966-ad1f-414a-9490-fba3cc3d52cf" />
+<img width="664" alt="image" src="https://github.com/user-attachments/assets/d8a90436-b024-4f80-802d-20261d35a05b" />
 
 
 ## Next, we ned to add a route to the API Gateway
 
 
-<img width="1049" alt="image" src="https://github.com/user-attachments/assets/9d4344a0-aeed-4671-8a1a-0ac5a9b2394f" />
+<img width="667" alt="image" src="https://github.com/user-attachments/assets/b40ab343-5078-4da3-ba1f-1031601427df" />
 
 <img width="1029" alt="image" src="https://github.com/user-attachments/assets/ef05cde6-278b-4fe0-888f-41c1ed9619a5" />
 
-<img width="1030" alt="image" src="https://github.com/user-attachments/assets/ffc315a6-808d-4ee3-9225-4f9115612c9e" />
+<img width="666" alt="image" src="https://github.com/user-attachments/assets/b3055f94-9eec-4268-9db4-b5a365e0e9a8" />
 
 <img width="1028" alt="image" src="https://github.com/user-attachments/assets/a0871761-52d8-421b-9375-e013828eb4c8" />
 
