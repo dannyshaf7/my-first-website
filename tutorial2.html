@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <meta name="description" content="simple personal static webpage">
+        <meta name="keywords" content="HTML, CSS, JavaScript, web development">
+        <meta name="author" content="Daniel Shafer">
+        <link rel="stylesheet" href="tutorials.css">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <script src=""script.js" defer></script> <!-- defer to load after html -->
+        <link href=""https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <title>dbshafer - Learn</title>
+        <style>
+            /* Add basic styling for navigation menu */
+            nav {
+                background-color: #f4f4f4; /* Light gray background for the menu */
+                /* Padding attribute adds space inside element, between content border (if any) */
+                padding: 10px;
+                border-bottom: 2px solid #ccc;
+            }
+            nav a {
+                margin: 0 15px; /* Spacing between links */
+                text-decoration: none; /* Removes underline from links */
+                color: #007BFF; /* A nice blue color for links */
+            }
+            nav a:hover {
+                text-decoration: underline; /* Adds underline when hovering over links */
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f4f4f4;
+                color: #333;
+            }
+            .tutorial-step {
+                margin-bottom: 40px;
+                padding: 20px;
+                background: #fff;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+            }
+            .tutorial-step img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin: 10px auto;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+        <!-- Navigation menu -->
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="blog.html">Blog</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="socials.html">Socials</a>
+            </nav>
+
+            <!-- Main Content -->
+            <h1>Creating a ProxMox Server to Host My Domain Controller and User Machines.</h1>
+            <div class="tutorial-step">
+                <p>My next homeserver lab project was setting up a Windows Server Active Directory domain.</p>                
+                <img src="images/tutorial2/adlogo.jpeg" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    In the first part of this lab, I set up the AD Domain Controller. After that, I'll cover
+                    the creation of Users and OUs (Organizational Units). 
+                </p>                    
+                <img src="images/tutorial2/tutorial1.jpeg" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    I used Windows Server 2019 because the ISO image is easy to find and download. 
+                    There is also a vast amount of documentation available online for this operating system.
+                </p>
+                <img src="images/tutorial2/tutorial2.jpeg" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    The ISO must first be uploaded to the Proxmox server before the VM can be created.
+                    An ISO image (or optical disc image) is a disk image that contains everything that
+                    would be written to a physical disk—in our case, a Windows Server 2019 installation disk. 
+                    The <code>virtio-win</code> ISO contains tools that make communication run more smoothly
+                    between Proxmox VE (virtual environment) and Windows operating systems.
+                </p>
+                <img src="images/tutorial2/tutorial3.jpeg" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    After creating the Windows Server VM (virtual machine), make sure that the required 
+                    ISO images are mounted to the CD/DVD drives so they can be accessed during installation.
+                </p>
+                <img src="images/tutorial2/tutorial4.jpeg" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    The <code>ip neigh</code> command displays the mapping between IP addresses and MAC addresses for
+                    devices on the LAN (local area network), also known as “neighbors.” The Windows Server's
+                    address <code>10.0.0.10</code> isn't known yet.
+                </p>
+                <img src="images/tutorial2/tutorial5.jpeg" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>The Windows Server can be reached by a ping scan, so the LAN connection is working correctly.</p>
+                <img src="images/tutorial2/tutorial6.jpeg" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    Now that we know the server was created and is connected to the network, we can move 
+                    forward with promoting it to a DC (Domain Controller) by installing the AD DS--Active 
+                    Directory Domain Services--role.
+                </p>
+                <img src="images/tutorial2/tutorial7.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    The operating system generates a default computer name during installation. Now is a 
+                    good time to make any changes. I changed it to the easily recognizable string <code>LAB-DC-01</code>.
+                </p>
+                <img src="images/tutorial2/tutorial8.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>Specifying the details of the computer's intended use can be helpful as well.</p>
+                <img src="images/tutorial2/tutorial9.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>Next, enable remote connections to allow connections from other network devices.</p>
+                <img src="images/tutorial2/tutorial10.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    The Ethernet controller wasn't configured during installation. This is one reason why we
+                    need the <code>virtio-win</code> ISO image—the necessary device drivers will be installed from it.
+                </p>
+                <img src="images/tutorial2/tutorial11.JPG" alt="text description of image">
+                <p>
+                    Right-click the <strong>Ethernet Controller</strong>, select <strong>Properties</strong>, 
+                    and review the <strong>Device Status</strong> section to see the explanation of the issue. 
+                    We need to update the device driver. Select <strong>Update Driver</strong> and navigate to 
+                    the appropriate file. In my case, the file path is: 
+                </p>
+
+                <pre><code>D:\NetKVM\2k19\amd64\netkvm.inf</code></pre>
+
+                <img src="images/tutorial2/tutorial12.JPG" alt="text description of image">
+                <img src="images/tutorial2/tutorial13.JPG" alt="text description of image">
+                <img src="images/tutorial2/tutorial14.JPG" alt="text description of image">
+                <img src="images/tutorial2/tutorial15.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    Once the Ethernet device driver has been updated, we can configure it to our specifications.
+                    Here, we chose a static IP address to keep our network configuration simple.
+                </p>
+                <img src="images/tutorial2/tutorial16.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    We test connectivity between the Windows Server and the Proxmox server using a ping scan.
+                    The ping scan fails, indicating there was an issue with our configuration.
+                </p>
+                <img src="images/tutorial2/tutorial17.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    The <code> ipconfig /all</code> command shows that the operating system is still auto-configuring
+                    the IPv4 address as something other than the <code>10.0.0.10</code> we set manually.
+                </p>
+                <img src="images/tutorial2/tutorial18.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    DHCP (Dynamic Host Configuration Protocol) will dynamically assign an IP address to the host
+                    from a pool of available addresses. While this is convenient in some scenarios, using a
+                    static address provides predictability. The following two scripts disable DHCP on this server:
+                <p>
+                <ol>
+                    <li>
+                        The first script tells Windows not to use any default route assigned by DHCP or RA 
+                        (Router Advertisement) on the specified “Ethernet” interface.
+                    </li>    
+                    <li>The second script disables route advertisement on the interface.</li>
+                </ol>
+                <p>
+                    This allows us to control how we want traffic routed by preventing the system from acting like a router.
+                    After making these changes, <strong>DHCP Enabled</strong> is now set to “No,” and we have the correct IP.
+                </p>
+                <img src="images/tutorial2/tutorial19.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    One final change is needed before ping scans will work. By default, Windows blocks ICMP
+                    packets, which are what the <code>ping</code> tool uses. The following PowerShell script enables a
+                    Windows Firewall rule to allow incoming ICMPv4 Echo Request packets.
+                </p>
+                <img src="images/tutorial2/tutorial20.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    We finally have the server's Ethernet interface connected properly! Now we can move on
+                    to promoting the server to a Domain Controller. The following PowerShell command
+                    installs the Active Directory Domain Services dependencies, including management tools.
+                </p>
+                <img src="images/tutorial2/tutorial21.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    Next, we create a new Active Directory Forest on the server and promote it to the first
+                    domain controller in the forest. The FQDN (fully qualified domain name) is set, as well as a
+                    NetBIOS name for legacy compatibility. The <code>SafeModeAdministratorPassword</code> parameter
+                    prompts for a password to be used for DSRM (Directory Services Restore Mode), which is a
+                    special safe mode for domain controllers used for recovery and repair.
+                </p>
+                <p>
+                    A prompt to install DNS should also appear during this process. Choosing <strong>Yes</strong> at this time
+                    is much easier than performing manual configuration later and is recommended.
+                </p>
+                <img src="images/tutorial2/tutorial22.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    We can confirm that the promotion was successful by navigating to the <strong>Server Manager</strong>
+                    menu (not visible before) and viewing the AD DS details.
+                </p>
+                <img src="images/tutorial2/tutorial23.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    Selecting <strong>Tools → Active Directory Users and Computers</strong> opens the configuration menu
+                    where new AD objects (users, organizational units, group policies, etc.) can be created,
+                    edited, and deleted for the domain.
+                </p>
+                <img src="images/tutorial2/tutorial24.JPG" alt="text description of image">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    Next, verify that the Domain Controller is configured to run DNS. Active Directory depends
+                    on DNS (Domain Name System) for everything—locating domain controllers, joining the
+                    domain, authenticating users, applying group policies, finding services, and more. When a
+                    domain controller is also a DNS server, it automatically registers SRV (service) records to
+                    advertise its services. It is common for organizations to have <strong>internal DNS</strong>--AD-
+                    integrated on DCs--and <strong>external DNS</strong> (public-facing) that work together.
+                </p>
+                <img src="images/tutorial2/tutorial25.JPG" alt="text description of image">
+                <p>
+                    The <code>Get-ADDomain</code> PowerShell command displays information about the AD domain.
+                    Here we can see that everything installed correctly and our promotion of the server to DC was successful!
+                </p>
+                <img src="images/tutorial2/tutorial26.JPG" alt="text description of image">
+            </div>
+
+            <h2>Summary</h2>
+                <p>
+                    We spun up a Windows Server 2019 VM in Proxmox, got it talking to the network using VirtIO drivers,</li>
+                    and locked in a static IP. After tweaking the firewall to allow ping scans, we promoted the server to</li>
+                    a Domain Controller, set up Active Directory Domain Services, and let it handle DNS. A quick check</li>
+                    A quick check confirms everything's running smoothly and ready for adding users, groups, and other domain goodies.</li>
+                </p>
+                <p>
+                    I hope you have learned something new and enjoyed your time in this tutorial. If so, please check back later, as additional 
+                    content will be posted as it becomes available!
+                </p>
+        </div>
+    </body>
+</html>
