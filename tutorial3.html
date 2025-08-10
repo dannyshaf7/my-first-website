@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <meta name="description" content="simple personal static webpage">
+        <meta name="keywords" content="HTML, CSS, JavaScript, web development">
+        <meta name="author" content="Daniel Shafer">
+        <link rel="stylesheet" href="tutorials.css">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <script src=""script.js" defer></script> <!-- defer to load after html -->
+        <link href=""https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <title>dbshafer - Learn</title>
+        <style>
+            /* Add basic styling for navigation menu */
+            nav {
+                background-color: #f4f4f4; /* Light gray background for the menu */
+                /* Padding attribute adds space inside element, between content border (if any) */
+                padding: 10px;
+                border-bottom: 2px solid #ccc;
+            }
+            nav a {
+                margin: 0 15px; /* Spacing between links */
+                text-decoration: none; /* Removes underline from links */
+                color: #007BFF; /* A nice blue color for links */
+            }
+            nav a:hover {
+                text-decoration: underline; /* Adds underline when hovering over links */
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f4f4f4;
+                color: #333;
+            }
+            .tutorial-step {
+                margin-bottom: 40px;
+                padding: 20px;
+                background: #fff;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+            }
+            .tutorial-step img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin: 10px auto;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+        <!-- Navigation menu -->
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="blog.html">Blog</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="socials.html">Socials</a>
+            </nav>
+
+            <!-- Main Content -->
+            <h1>Creating a User Object and adding it to an OU.</h1>
+            <div class="tutorial-step">
+                <p>The next step in my homeserver lab project was setting up users in my Active Directory domain.</p>                
+                <img src="images/tutorial2/adlogo.jpeg" alt="text description of image">
+            </div>
+
+        <div class="tutorial-step">
+            <p>
+                First, create or choose the <strong>Organizational Unit (OU)</strong> where the new user will be grouped.
+                Objects shown with a <strong>plain folder</strong> icon are <em>containers</em>—built-in AD objects that can hold other
+                objects but cannot be linked to <strong>Group Policy Objects (GPOs)</strong>. OUs are represented by a folder icon
+                with a <strong>book inside</strong>, and GPOs can be linked to them to delegate administrative control.
+            </p>
+            <img src="images/tutorial3/tutorial27.JPG" alt="Active Directory OUs and Containers">
+        </div>
+
+        <div class="tutorial-step">
+            <p>
+                Next, create a <strong>User</strong> object. Maintain consistent naming conventions when choosing logon names.
+                You can either create the user directly inside the OU or create it elsewhere and move it into the OU later.
+            </p>
+            <img src="images/tutorial3/tutorial28.JPG" alt="Creating a new AD user">
+            <img src="images/tutorial3/tutorial29.JPG" alt="Creating a new AD user">
+        </div>
+
+        <div class="tutorial-step">
+            <p>
+                ⚠ <strong>Cloning mistake note:</strong> I accidentally cloned Virtual Machine 102 while it was already joined
+                to the <code>lab.local</code> AD domain. This confused the domain controller, which saw all cloned PCs as the same
+                device. The fix was to remove each PC from the domain and then rejoin it.
+            </p>
+            <img src="images/tutorial3/tutorial31.jpeg" alt="Removing and rejoining PCs to the domain">
+            <img src="images/tutorial3/tutorial32.jpeg" alt="Removing and rejoining PCs to the domain">
+        </div>
+
+        <div class="tutorial-step">
+            <p>
+                There must be a <strong>local Administrator</strong> or other local account on a PC to access it after removing
+                it from the domain. It's a good idea to enable the local Administrator account on each PC beforehand.
+                The first command changes its password, and the second enables the account:
+            </p>
+            <pre><code>net user Administrator password123</code></pre>
+            <pre><code>net user Administrator /active:yes</code></pre>
+            <img src="images/tutorial3/tutorial33.jpeg" alt="Enabling local admin account">
+            <img src="images/tutorial3/tutorial34.jpeg" alt="Enabling local admin account">
+            <img src="images/tutorial3/tutorial35.jpeg" alt="Enabling local admin account">
+        </div>
+
+        <div class="tutorial-step">
+            <p>
+                The <code>sysdm.cpl</code> command opens the <strong>System Properties</strong> dialog we’ll need for the next step.
+            </p>
+            <img src="images/tutorial3/tutorial36.jpeg" alt="Opening System Properties">
+        </div>
+
+        <div class="tutorial-step">
+            <p>
+                Before making any domain changes, it’s a good practice to change the computer name from its default.
+                Using a consistent naming scheme for computers makes network administration easier and more scalable.
+            </p>
+            <img src="images/tutorial3/tutorial37.jpeg" alt="Changing the computer name">
+            <img src="images/tutorial3/tutorial38.jpeg" alt="Changing the computer name">
+            <img src="images/tutorial3/tutorial39.jpeg" alt="Changing the computer name">
+        </div>
+
+        <div class="tutorial-step">
+            <p>
+                Next, confirm the correct network settings by opening the <strong>network interface properties</strong> menu,
+                then opening <strong>IPv4 Properties</strong>.
+            </p>
+            <img src="images/tutorial3/tutorial40.jpeg" alt="Opening IPv4 properties">
+            <img src="images/tutorial3/tutorial41.jpeg" alt="Opening IPv4 properties">
+        </div>
+
+        <div class="tutorial-step">
+            <p>
+                For more control, assign a <strong>static IP address</strong>, subnet mask, and default gateway.
+                Set the <strong>Preferred DNS server</strong> to the domain controller’s IP address, as it’s currently acting as our DNS server.
+            </p>
+            <img src="images/tutorial3/tutorial42.jpeg" alt="Setting static IP and DNS">
+        </div>
+
+        <div class="tutorial-step">
+            <p>
+                Select <strong>Connect</strong> to search for the Active Directory domain. We are not connecting through the internet,
+                so choose the <em>join</em> link under <strong>Alternate actions</strong>.
+            </p>
+            <img src="images/tutorial3/tutorial43.jpeg" alt="Joining the AD domain">
+        </div>
+
+        <div class="tutorial-step">
+            <p>
+                Type the domain name into the field and select <strong>Next</strong>.
+            </p>
+            <img src="images/tutorial3/tutorial44.jpeg" alt="Entering domain name">
+            <img src="images/tutorial3/tutorial45.jpeg" alt="Entering domain name">
+        </div>
+
+        <div class="tutorial-step">
+            <p>
+                We can skip the account creation step since we already created the user on the domain controller.
+            </p>
+            <img src="images/tutorial3/tutorial46.jpeg" alt="Skipping account creation">
+        </div>
+
+        <div class="tutorial-step">
+            <p>
+                Now, you can log in to any of the PCs using any of the domain user credentials!
+            </p>
+            <img src="images/tutorial3/tutorial47.jpeg" alt="Logging in with domain credentials">
+        </div>
