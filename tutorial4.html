@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <meta name="description" content="simple personal static webpage">
+        <meta name="keywords" content="HTML, CSS, JavaScript, web development, pentesting, shellshock">
+        <meta name="author" content="Daniel Shafer">
+        <link rel="stylesheet" href="tutorials.css">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <script src="script.js" defer></script>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <title>dbshafer - Learn</title>
+        <style>
+            nav {
+                background-color: #f4f4f4;
+                padding: 10px;
+                border-bottom: 2px solid #ccc;
+            }
+            nav a {
+                margin: 0 15px;
+                text-decoration: none;
+                color: #007BFF;
+            }
+            nav a:hover {
+                text-decoration: underline;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f4f4f4;
+                color: #333;
+            }
+            .tutorial-step {
+                margin-bottom: 40px;
+                padding: 20px;
+                background: #fff;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+            }
+            .tutorial-step img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin: 10px auto;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <!-- Navigation menu -->
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="blog.html">Blog</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="socials.html">Socials</a>
+            </nav>
+
+            <!-- Main Content -->
+            <h1>DC404 Network King of the Hill — Shellshock Exploitation (CVE-2014-6271)</h1>
+
+            <div class="tutorial-step">
+                <p>
+                    This writeup covers my participation in the <strong>DC404 Network King of the Hill (NetKotH)</strong> event on 2026-03-21.
+                    The objective was to exploit a vulnerable target machine at <code>192.168.64.3</code> and deface its web page
+                    with a team name to score points. The target was running a known vulnerability: <strong>CVE-2014-6271</strong>, also known as <strong>Shellshock</strong>.
+                </p>
+                <img src="images/tutorial4/tutorial01.jpeg" alt="CVE-2014-6271 webpage running on target 192.168.64.3">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    <strong>CVE-2014-6271 (Shellshock)</strong> is a critical vulnerability in GNU Bash through version 4.3.
+                    It allows remote attackers to execute arbitrary code by passing a crafted environment variable containing
+                    a malicious function definition. It affects CGI scripts in Apache, OpenSSH, DHCP clients, and other
+                    situations where environment variables are passed across a privilege boundary into Bash.
+                </p>
+                <img src="images/tutorial4/tutorial02.jpeg" alt="CVE-2014-6271 NVD record">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    ⚠ <strong>Networking issue — NAT vs. Bridge mode:</strong> My Kali VM's network adapter was initially set to
+                    <strong>NAT</strong>, which assigned it an IP (<code>10.0.2.15</code>) in a different subnet than the target
+                    (<code>192.168.64.x</code>). A reverse shell requires the target to call <em>back</em> to our machine,
+                    which it cannot do if they are on different networks. The fix was to switch the VirtualBox adapter to
+                    <strong>Bridged mode</strong>, which places the Kali VM directly on the host machine's network alongside the target.
+                </p>
+                <img src="images/tutorial4/tutorial03.jpeg" alt="VirtualBox network adapter set to Bridged mode">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    With networking sorted, the next step was launching <strong>Metasploit</strong> and searching for a Shellshock
+                    scanner module. The command <code>search type:aux shellshock</code> returns auxiliary modules related to the vulnerability.
+                    The relevant module here is <code>auxiliary/scanner/http/apache_mod_cgi_bash_env</code> — a scanner that checks
+                    whether a target CGI script is vulnerable.
+                </p>
+                <img src="images/tutorial4/tutorial04.jpeg" alt="Metasploit search for shellshock auxiliary modules">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    Select the scanner module with <code>use 0</code> and review its details with <code>info</code>.
+                    This shows the module's options, description, and references. Key required fields are
+                    <code>RHOSTS</code> (target IP) and <code>TARGETURI</code> (the specific CGI script path to test).
+                </p>
+                <img src="images/tutorial4/tutorial05.jpeg" alt="Module info output for apache_mod_cgi_bash_env scanner">
+                <img src="images/tutorial4/tutorial06.jpeg" alt="Module options showing TARGETURI and other required fields">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    The <code>TARGETURI</code> is the <strong>URI (Uniform Resource Identifier)</strong> — the path after the IP address in a URL.
+                    For example, in <code>http://192.168.64.3/cgi-bin/status</code>, the URI is <code>/cgi-bin/status</code>.
+                    The Shellshock vulnerability lives inside <strong>CGI scripts</strong> specifically, so we must identify the exact
+                    vulnerable script. Common targets to try include:
+                </p>
+                <pre><code>/cgi-bin/bash    /cgi-bin/sh       /cgi-bin/test.cgi
+/cgi-bin/test-cgi    /cgi-bin/status    /cgi-bin/printenv</code></pre>
+                <p>
+                    <strong>CGI (Common Gateway Interface)</strong> is an older method for making web pages dynamic. Servers place
+                    executable scripts in <code>/cgi-bin/</code> to be run rather than simply served as static files.
+                    These scripts are often written in bash, Perl, or C, run with server privileges, and pass user input
+                    directly to the shell — making them a prime target for Shellshock.
+                </p>
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    Set the required options and run the scanner. After trying several URI paths,
+                    <code>/cgi-bin/status</code> produced output confirming the vulnerability:
+                </p>
+                <img src="images/tutorial4/tutorial07.jpeg" alt="Setting RHOSTS and TARGETURI in Metasploit scanner">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    The scanner returned:
+                </p>
+                <pre><code>uid=1000(pentesterlab) gid=50(staff) groups=50(staff),100(pentesterlab)</code></pre>
+                <p>
+                    This is the output of the <code>id</code> command being executed on the target via the Shellshock payload —
+                    confirming <strong>remote code execution</strong>. The target is vulnerable!
+                </p>
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    With the vulnerability confirmed, we switch to the exploit module. Run <code>search type:exploit shellshock</code>
+                    and select <code>exploit/multi/http/apache_mod_cgi_bash_env_exec</code> with <code>use 1</code>.
+                    Review its options with <code>info</code>.
+                </p>
+                <img src="images/tutorial4/tutorial08.jpeg" alt="Scanner output confirming Shellshock vulnerability via uid output">
+                <img src="images/tutorial4/tutorial09.jpeg" alt="Searching for shellshock exploit modules in Metasploit">
+                <img src="images/tutorial4/tutorial10.jpeg" alt="Exploit module info and options">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    The exploit module requires the same options as the scanner, plus <code>LHOST</code> — our local machine's IP address,
+                    which the target will use to establish the reverse shell connection back to us.
+                    This is why the bridged network adapter was critical: <code>LHOST</code> must be reachable from the target.
+                </p>
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    Set all required options and run the exploit.
+                </p>
+                <img src="images/tutorial4/tutorial11.jpeg" alt="Setting RHOSTS, LHOST, and TARGETURI for the exploit module">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    A <strong>Meterpreter session</strong> is successfully created. From the Meterpreter prompt, drop into a system shell
+                    with the <code>shell</code> command, then locate the web root directory:
+                </p>
+                <pre><code>find / -name "www" -type d 2>/dev/null</code></pre>
+                <p>
+                    Breaking this down: <code>/</code> starts the search at root, <code>-name "www"</code> matches the directory name,
+                    <code>-type d</code> limits results to directories, and <code>2>/dev/null</code> discards error messages.
+                    The target file was found at <code>/var/www/index.html</code> — the page we need to deface to score points.
+                </p>
+            </div>
+            <div class="tutorial-step">
+                <p>
+                    The Meterpreter reverse shell is a <strong>"dumb pipe"</strong> — raw stdin/stdout with no terminal features, so making 
+                    making changes with it is WEIRD. It makes interactive tools like <code>vi</code> unreliable. I wasn't able to find a 
+                    workaround in the time I had left, so that's as far as we got. After the meeting, I did some research into ways to get
+                    a better terminal experience. First, to make any changes, we need to make the file writeable. We can do this by 
+                    changing the file ownership using <code>chown</code> so the file can be edited as the <code>pentesterlab</code> user:
+                </p>
+                <pre><code>whoami
+chown pentesterlab index.html</code></pre>
+                <img src="images/tutorial4/tutorial12.jpeg" alt="Using chown to change file ownership in the shell">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    To prepend the team tag to <code>index.html</code> without a text editor, I found two workarounds.
+                    The <code>sed</code> approach uses <code>-i</code> to edit in place, with <code>1i</code> meaning
+                    "insert before line 1" — effectively adding content to the top of the file:
+                </p>
+                <pre><code>sed -i '1i &lt;team&gt;w1ldhun7&lt;/team&gt;' index.html</code></pre>
+                <p>
+                    Alternatively, the <code>echo</code> + <code>cat</code> trick pipes new content into a temp file, then replaces the original:
+                </p>
+                <pre><code>echo "&lt;team&gt;w1ldhun7&lt;/team&gt;" | cat - index.html > /tmp/tmpfile && mv /tmp/tmpfile index.html</code></pre>
+                <img src="images/tutorial4/tutorial14.jpeg" alt="Using sed and echo to prepend team tag to index.html">
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    To avoid working in a dumb shell in the future, a proper <strong>TTY</strong> (terminal) can be spawned several ways.
+                    A TTY restores normal shell behavior: tab completion, working Ctrl+C, <code>sudo</code> access, and proper
+                    interactive tool support.
+                </p>
+                <pre><code># Python (most common)
+python -c 'import pty; pty.spawn("/bin/bash")'
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+
+# Other options
+perl -e 'exec "/bin/bash";'
+ruby -e 'exec "/bin/bash"'
+/bin/bash -i
+/bin/sh -i
+script /dev/null -c bash</code></pre>
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    The most stable access method is establishing an <strong>SSH session</strong> using public key authentication.
+                    SSH follows a hardcoded convention of checking <code>~/.ssh/authorized_keys</code> in the home directory
+                    of the user being logged in as. By planting our public key there via the existing shell access,
+                    we can connect via the front door like a legitimate user — and the access persists across reboots.
+                </p>
+                <pre><code># On Kali — generate key pair if needed
+ssh-keygen -t rsa
+
+# On Kali — get your public key
+cat ~/.ssh/id_rsa.pub
+
+# On target — create .ssh directory and add key
+mkdir -p /home/pentesterlab/.ssh
+echo "your_public_key_here" >> /home/pentesterlab/.ssh/authorized_keys
+
+# Set correct permissions (SSH will silently reject loose permissions)
+chmod 700 /home/pentesterlab/.ssh
+chmod 600 /home/pentesterlab/.ssh/authorized_keys
+
+# On Kali — connect
+ssh pentesterlab@192.168.64.3</code></pre>
+                <p>
+                    ⚠ <strong>Note:</strong> If permissions on <code>.ssh</code> or <code>authorized_keys</code> are too loose,
+                    SSH will <em>silently</em> reject the key — always make sure to set them correctly.
+                </p>
+            </div>
+
+            <div class="tutorial-step">
+                <p>
+                    <strong>How SSH public key auth works:</strong>
+                </p>
+                <ol>
+                    <li>Kali initiates an SSH connection to the target</li>
+                    <li>Target checks <code>authorized_keys</code> for a matching public key</li>
+                    <li>Target encrypts a random challenge using the public key</li>
+                    <li>Only Kali's private key can decrypt it</li>
+                    <li>Kali decrypts and responds correctly</li>
+                    <li>Target grants access — no password required</li>
+                </ol>
+                <p>
+                    Planting an SSH key is a classic <strong>persistence</strong> technique: it survives reboots,
+                    looks legitimate in logs, and remains even if the original exploit vector is patched or malware is removed.
+                </p>
+            </div>
+
+        </div>
+    </body>
+</html>
